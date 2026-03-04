@@ -254,7 +254,7 @@
             </div>
         </section>
 
-        <!-- 3. HORIZONTAL SNAKE ROADMAP -->
+        <!-- 3. HORIZONTAL ROADMAP (DRAGGABLE) -->
         <section>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2><span style="color: var(--accent-color);">Mein Werdegang</span></h2>
@@ -264,7 +264,7 @@
                 </div>
             </div>
             
-            <div class="roadmap-h-wrapper" id="roadmap-scroll">
+            <div class="roadmap-h-wrapper drag-container" id="roadmap-scroll">
                 <div class="snake-h-container">
                     <div class="snake-h-line"></div>
                     
@@ -308,16 +308,15 @@
                         <div class="snake-h-node"></div>
                         <div class="snake-h-card">
                             <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">Heute</span>
-                            <h3 style="margin: 10px 0;">Berufliche Entwicklung</h3>
+                            <h3 style="margin: 10px 0;">Entwicklung</h3>
                             <p style="color: var(--text-muted); font-size: 0.9rem;">Selbstständig umgesetzte Siebdruckprojekte mit eigener Ausstattung und Materialien.</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
-        <!-- 4. HORIZONTAL WORK SAMPLES -->
+        <!-- 4. HORIZONTAL WORK SAMPLES (DRAGGABLE) -->
         <section>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2><span style="color: var(--accent-color);">Arbeitsproben</span></h2>
@@ -327,32 +326,14 @@
                 </div>
             </div>
 
-            <div class="work-scroll-wrapper" id="work-scroll">
+            <div class="work-scroll-wrapper drag-container" id="work-scroll">
                 <div class="work-scroll-container">
-                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
-                        <div class="spec-overlay"><span class="spec-val">TEXTIL</span></div>
-                    </div>
-                </div>
-                    <div class="work-item"><div class="img-box"><img src="work2.jpg">
-                        <div class="spec-overlay"><span class="spec-val">PVC-FOLIE</span></div>
-                    </div>
-                </div>
-                    <div class="work-item"><div class="img-box"><img src="work3.jpg">
-                        <div class="spec-overlay"><span class="spec-val">SCREEN PREP</span></div>
-                    </div>
-                </div>
-                    <div class="work-item"><div class="img-box"><img src="work4.jpg">
-                        <div class="spec-overlay"><span class="spec-val">BELICHTUNG</span></div>
-                    </div>
-                </div>
-                    <div class="work-item"><div class="img-box"><img src="work5.jpg">
-                        <div class="spec-overlay"><span class="spec-val">FARBMISCHUNG</span></div>
-                    </div>
-                </div>
-                    <div class="work-item"><div class="img-box"><img src="work6.jpg">
-                        <div class="spec-overlay"><span class="spec-val">FINISHING</span></div>
-                    </div>
-                </div>
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg"><div class="spec-overlay"><span class="spec-val">TEXTIL</span></div></div></div>
+                    <div class="work-item"><div class="img-box"><img src="work2.jpg"><div class="spec-overlay"><span class="spec-val">PVC-FOLIE</span></div></div></div>
+                    <div class="work-item"><div class="img-box"><img src="work3.jpg"><div class="spec-overlay"><span class="spec-val">SCREEN PREP</span></div></div></div>
+                    <div class="work-item"><div class="img-box"><img src="work4.jpg"><div class="spec-overlay"><span class="spec-val">FINISHING</span></div></div></div>
+                    <div class="work-item"><div class="img-box"><img src="work3.jpg"><div class="spec-overlay"><span class="spec-val">SCREEN PREP</span></div></div></div>
+                    <div class="work-item"><div class="img-box"><img src="work4.jpg"><div class="spec-overlay"><span class="spec-val">FINISHING</span></div></div></div>
                 </div>
             </div>
         </section>
@@ -384,7 +365,7 @@
     </div>
 
     <script>
-        // Custom Cursor Logic
+        // --- CUSTOM CURSOR ---
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', e => {
             if (cursor) {
@@ -393,19 +374,54 @@
             }
         });
 
-        // Progress Bar Logic
+        // --- SCROLL PROGRESS ---
         window.addEventListener('scroll', () => {
             const h = document.documentElement, b = document.body;
             const scrollPercent = (h.scrollTop || b.scrollTop) / ((h.scrollHeight || b.scrollHeight) - h.clientHeight) * 100;
             document.getElementById('progress-bar').style.width = scrollPercent + '%';
         });
 
-        // Horizontal Scroll Function
+        // --- BUTTON SCROLL FUNCTION ---
         function scrollContainer(id, distance) {
             const container = document.getElementById(id);
+            container.style.scrollBehavior = 'smooth';
             container.scrollBy({ left: distance, behavior: 'smooth' });
         }
+
+        // --- CLICK AND DRAG LOGIC ---
+        const sliders = document.querySelectorAll('.drag-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        sliders.forEach(slider => {
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('active');
+                slider.style.scrollBehavior = 'auto'; // Smooth ausschalten beim Dragen
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; // Scroll-Geschwindigkeit
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
     </script>
 </body>
+</html>
 
 </html>
+
