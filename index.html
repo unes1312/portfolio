@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Younes Bousaid | Medientechnologe Siebdruck</title>
+    <title>Younes Bousaid | Medientechnologe Siebdruck</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -67,53 +67,67 @@
             position: relative; z-index: 2; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* --- NAVIGATION BUTTONS FOR SLIDERS --- */
-        .slider-controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            justify-content: flex-end;
+        /* --- SLIDER WRAPPER & BUTTONS --- */
+        .slider-relative-wrapper {
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
         }
 
         .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
             width: 50px;
             height: 50px;
             border-radius: 50%;
             border: 1px solid var(--border-color);
-            background: var(--surface-color);
+            background: rgba(22, 26, 29, 0.8);
+            backdrop-filter: blur(5px);
             color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: 0.3s;
-            z-index: 10;
+            z-index: 100;
+            cursor: pointer;
         }
 
         .nav-btn:hover {
             background: var(--accent-color);
             border-color: var(--accent-color);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .nav-btn.prev { left: -25px; }
+        .nav-btn.next { right: -25px; }
+
+        @media (max-width: 1000px) {
+            .nav-btn.prev { left: 0; }
+            .nav-btn.next { right: 0; }
         }
 
         /* --- HORIZONTAL ROADMAP --- */
         .roadmap-h-wrapper {
-            position: relative;
             width: 100%;
             padding: 60px 0;
             overflow-x: auto;
-            scroll-behavior: smooth;
             scrollbar-width: none;
+            cursor: grab;
+            user-select: none;
         }
+        .roadmap-h-wrapper:active { cursor: grabbing; }
         .roadmap-h-wrapper::-webkit-scrollbar { display: none; }
 
         .snake-h-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-width: 1600px; /* Breite für horizontales Snake-Design */
+            min-width: 1600px;
             position: relative;
-            padding: 120px 0;
+            padding: 140px 0;
+            pointer-events: none;
         }
 
         .snake-h-line {
@@ -131,13 +145,14 @@
         .snake-h-card {
             width: 300px; background: var(--surface-color); border: 1px solid var(--border-color);
             padding: 25px; border-radius: 12px; position: relative; transition: 0.4s;
+            pointer-events: auto;
         }
 
-        .snake-h-item:nth-child(odd) .snake-h-card { transform: translateY(-130px); }
-        .snake-h-item:nth-child(even) .snake-h-card { transform: translateY(130px); }
+        .snake-h-item:nth-child(odd) .snake-h-card { transform: translateY(-140px); }
+        .snake-h-item:nth-child(even) .snake-h-card { transform: translateY(140px); }
 
-        .snake-h-card:hover { border-color: var(--accent-color); transform: translateY(calc(-130px - 10px)) scale(1.05); }
-        .snake-h-item:nth-child(even) .snake-h-card:hover { transform: translateY(calc(130px + 10px)) scale(1.05); }
+        .snake-h-card:hover { border-color: var(--accent-color); transform: translateY(calc(-140px - 10px)) scale(1.05); }
+        .snake-h-item:nth-child(even) .snake-h-card:hover { transform: translateY(calc(140px + 10px)) scale(1.05); }
 
         .snake-h-node {
             position: absolute; top: 50%; left: 50%; width: 24px; height: 24px;
@@ -149,9 +164,10 @@
         .work-scroll-wrapper {
             width: 100%;
             overflow-x: auto;
-            scroll-behavior: smooth;
             scrollbar-width: none;
+            cursor: grab;
         }
+        .work-scroll-wrapper:active { cursor: grabbing; }
         .work-scroll-wrapper::-webkit-scrollbar { display: none; }
 
         .work-scroll-container {
@@ -162,7 +178,7 @@
         }
 
         .work-item {
-            width: 400px; /* Feste Breite für jedes Projekt im Slider */
+            width: 400px;
             height: 50vh;
             flex-shrink: 0;
         }
@@ -170,17 +186,16 @@
         /* --- TYPOGRAPHY & BUTTONS --- */
         h1, h2 { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: -0.02em; }
         h1 { font-size: clamp(3rem, 10vw, 6rem); line-height: 0.8; margin-bottom: 1.5rem; }
-        h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 15px; }
+        h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 2rem; display: flex; align-items: center; gap: 15px; }
         h2::after { content: ""; height: 1px; flex-grow: 1; background: var(--border-color); }
 
         .btn { padding: 16px 32px; font-family: var(--font-mono); text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 12px; font-weight: bold; transition: 0.3s; }
         .btn-main { background: var(--accent-color); color: white; }
         .btn-outline { border: 1px solid #ff0000; color: #ff0000; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(53, 147, 255, 0.2); }
 
         /* --- IMAGES --- */
         .img-box { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; position: relative; transition: 0.4s; height: 100%; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; pointer-events: none; }
         .img-box:hover img { transform: scale(1.05); filter: brightness(0.4); }
         .spec-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.4s; pointer-events: none; }
         .img-box:hover .spec-overlay { opacity: 1; }
@@ -193,7 +208,7 @@
             border-radius: 12px; display: flex; align-items: center; justify-content: center;
             color: var(--text-main); font-size: 1.6rem; text-decoration: none; transition: 0.4s;
         }
-        .social-btn:hover { transform: translateY(-10px); color: #fff; border-color: transparent; }
+        .social-btn:hover { transform: translateY(-10px); color: #fff; }
         .whatsapp:hover { background: #25D366; }
         .linkedin:hover { background: #0077b5; }
         .xing:hover { background: #006567; }
@@ -202,9 +217,8 @@
         @media (max-width: 800px) {
             section { padding: 60px 20px; }
             .snake-h-container { min-width: 100%; flex-direction: column; padding: 0; }
-            .snake-h-line { display: none; }
+            .snake-h-line, .snake-h-node { display: none; }
             .snake-h-card { width: 100% !important; transform: none !important; margin-bottom: 20px; }
-            .snake-h-node { display: none; }
             .work-item { width: 85vw; }
         }
     </style>
@@ -237,8 +251,12 @@
         <!-- 2. ABOUT -->
         <section>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center;">
-                <div class="img-box" style="height: 65vh;">
+                <div class="img-box" style="height: 60vh;">
                     <img src="YOUNES BOUSAID1.jpg" alt="Portrait">
+                    <div class="spec-overlay">
+                        <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                        <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                    </div>
                 </div>
                 <div>
                     <h2><span style="color: var(--accent-color);">Über mich</span></h2>
@@ -254,87 +272,117 @@
             </div>
         </section>
 
-        <!-- 3. HORIZONTAL ROADMAP (DRAGGABLE) -->
+        <!-- 3. HORIZONTAL ROADMAP -->
         <section>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2><span style="color: var(--accent-color);">Mein Werdegang</span></h2>
-                <div class="slider-controls">
-                    <button class="nav-btn" onclick="scrollContainer('roadmap-scroll', -400)"><i class="fa-solid fa-arrow-left"></i></button>
-                    <button class="nav-btn" onclick="scrollContainer('roadmap-scroll', 400)"><i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
+            <h2><span style="color: var(--accent-color);">Mein Werdegang</span></h2>
             
-            <div class="roadmap-h-wrapper drag-container" id="roadmap-scroll">
-                <div class="snake-h-container">
-                    <div class="snake-h-line"></div>
-                    
-                    <div class="snake-h-item">
-                        <div class="snake-h-node"></div>
-                        <div class="snake-h-card">
-                            <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2018 - 2019</span>
-                            <h3 style="margin: 10px 0;">Abitur</h3>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Abschluss Abitur in der Fachrichtung Geisteswissenschaften.</p>
-                        </div>
-                    </div>
+            <div class="slider-relative-wrapper">
+                <!-- Nav Buttons Inside -->
+                <div class="nav-btn prev" onclick="scrollContainer('roadmap-scroll', -400)"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="nav-btn next" onclick="scrollContainer('roadmap-scroll', 400)"><i class="fa-solid fa-chevron-right"></i></div>
 
-                    <div class="snake-h-item">
-                        <div class="snake-h-node"></div>
-                        <div class="snake-h-card">
-                            <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2019 - 2021</span>
-                            <h3 style="margin: 10px 0;">Vordiplom</h3>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Vordiplom in der Fachrichtung Anglistik – Universität Ibn Tofail, Kenitra.</p>
+                <div class="roadmap-h-wrapper drag-container" id="roadmap-scroll">
+                    <div class="snake-h-container">
+                        <div class="snake-h-line"></div>
+                        
+                        <div class="snake-h-item">
+                            <div class="snake-h-node"></div>
+                            <div class="snake-h-card">
+                                <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2018 - 2019</span>
+                                <h3 style="margin: 10px 0;">Abitur</h3>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Abschluss Abitur in der Fachrichtung Geisteswissenschaften.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="snake-h-item">
-                        <div class="snake-h-node"></div>
-                        <div class="snake-h-card">
-                            <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2023</span>
-                            <h3 style="margin: 10px 0;">Praktikum</h3>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Einstieg in die Welt des Siebdrucks. Manuelle Siebvorbereitung und erste Erfahrungen mit Rakel und Farbe.</p>
+                        <div class="snake-h-item">
+                            <div class="snake-h-node"></div>
+                            <div class="snake-h-card">
+                                <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2019 - 2021</span>
+                                <h3 style="margin: 10px 0;">Vordiplom</h3>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Vordiplom in der Fachrichtung Anglistik – Universität Ibn Tofail, Kenitra.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="snake-h-item">
-                        <div class="snake-h-node"></div>
-                        <div class="snake-h-card">
-                            <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2024 - 2025</span>
-                            <h3 style="margin: 10px 0;">Deutschkurse</h3>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Erfolgreich abgeschlossen mit telc B1- und B2-Zertifikat</p>
+                        <div class="snake-h-item">
+                            <div class="snake-h-node"></div>
+                            <div class="snake-h-card">
+                                <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2023</span>
+                                <h3 style="margin: 10px 0;">Praktikum</h3>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Einstieg in die Welt des Siebdrucks. Manuelle Siebvorbereitung und erste Erfahrungen mit Rakel und Farbe.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="snake-h-item">
-                        <div class="snake-h-node"></div>
-                        <div class="snake-h-card">
-                            <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">Heute</span>
-                            <h3 style="margin: 10px 0;">Entwicklung</h3>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;">Selbstständig umgesetzte Siebdruckprojekte mit eigener Ausstattung und Materialien.</p>
+                        <div class="snake-h-item">
+                            <div class="snake-h-node"></div>
+                            <div class="snake-h-card">
+                                <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">2024 - 2025</span>
+                                <h3 style="margin: 10px 0;">Deutschkurse</h3>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Erfolgreich abgeschlossen mit telc B1- und B2-Zertifikat</p>
+                            </div>
+                        </div>
+
+                        <div class="snake-h-item">
+                            <div class="snake-h-node"></div>
+                            <div class="snake-h-card">
+                                <span style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.8rem;">Heute</span>
+                                <h3 style="margin: 10px 0;">Entwicklung</h3>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Selbstständig umgesetzte Siebdruckprojekte mit eigener Ausstattung und Materialien.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. HORIZONTAL WORK SAMPLES (DRAGGABLE) -->
+        <!-- 4. HORIZONTAL WORK SAMPLES -->
         <section>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2><span style="color: var(--accent-color);">Arbeitsproben</span></h2>
-                <div class="slider-controls">
-                    <button class="nav-btn" onclick="scrollContainer('work-scroll', -450)"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="nav-btn" onclick="scrollContainer('work-scroll', 450)"><i class="fa-solid fa-chevron-right"></i></button>
+            <h2><span style="color: var(--accent-color);">Arbeitsproben</span></h2>
+            
+            <div class="slider-relative-wrapper">
+                <!-- Nav Buttons Inside -->
+                <div class="nav-btn prev" onclick="scrollContainer('work-scroll', -450)"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="nav-btn next" onclick="scrollContainer('work-scroll', 450)"><i class="fa-solid fa-chevron-right"></i></div>
+
+                <div class="work-scroll-wrapper drag-container" id="work-scroll">
+                <div class="work-scroll-container">
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
+                        <div class="spec-overlay">
+                            <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                            <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                        </div>
+                    </div></div>
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
+                        <div class="spec-overlay">
+                            <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                            <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                        </div>
+                    </div></div>
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
+                        <div class="spec-overlay">
+                            <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                            <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                        </div>
+                    </div></div>
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
+                        <div class="spec-overlay">
+                            <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                            <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                        </div>
+                    </div></div>
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
+                        <div class="spec-overlay">
+                            <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                            <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                        </div>
+                    </div></div>
+                    <div class="work-item"><div class="img-box"><img src="work1.jpg">
+                        <div class="spec-overlay">
+                            <p>Name: <span class="spec-val">YOUNES BOUSAID</span></p>
+                            <p>Geburt: <span class="spec-val">17.01.1998</span></p>
+                        </div>
+                    </div></div>
                 </div>
             </div>
-
-            <div class="work-scroll-wrapper drag-container" id="work-scroll">
-                <div class="work-scroll-container">
-                    <div class="work-item"><div class="img-box"><img src="work1.jpg"><div class="spec-overlay"><span class="spec-val">TEXTIL</span></div></div></div>
-                    <div class="work-item"><div class="img-box"><img src="work2.jpg"><div class="spec-overlay"><span class="spec-val">PVC-FOLIE</span></div></div></div>
-                    <div class="work-item"><div class="img-box"><img src="work3.jpg"><div class="spec-overlay"><span class="spec-val">SCREEN PREP</span></div></div></div>
-                    <div class="work-item"><div class="img-box"><img src="work4.jpg"><div class="spec-overlay"><span class="spec-val">FINISHING</span></div></div></div>
-                    <div class="work-item"><div class="img-box"><img src="work3.jpg"><div class="spec-overlay"><span class="spec-val">SCREEN PREP</span></div></div></div>
-                    <div class="work-item"><div class="img-box"><img src="work4.jpg"><div class="spec-overlay"><span class="spec-val">FINISHING</span></div></div></div>
-                </div>
             </div>
         </section>
 
@@ -397,25 +445,19 @@
         sliders.forEach(slider => {
             slider.addEventListener('mousedown', (e) => {
                 isDown = true;
-                slider.classList.add('active');
-                slider.style.scrollBehavior = 'auto'; // Smooth ausschalten beim Dragen
+                slider.style.scrollBehavior = 'auto';
                 startX = e.pageX - slider.offsetLeft;
                 scrollLeft = slider.scrollLeft;
             });
 
-            slider.addEventListener('mouseleave', () => {
-                isDown = false;
-            });
-
-            slider.addEventListener('mouseup', () => {
-                isDown = false;
-            });
+            slider.addEventListener('mouseleave', () => { isDown = false; });
+            slider.addEventListener('mouseup', () => { isDown = false; });
 
             slider.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; // Scroll-Geschwindigkeit
+                const walk = (x - startX) * 2;
                 slider.scrollLeft = scrollLeft - walk;
             });
         });
@@ -423,5 +465,4 @@
 </body>
 </html>
 
-</html>
 
